@@ -137,6 +137,7 @@ export class Injector {
         contextId,
         inquirer,
       );
+      this.printResolvedProviderLog(token, moduleRef);
       this.applyProperties(instance, properties);
       done();
     };
@@ -891,6 +892,22 @@ export class Injector {
     const moduleRefName = moduleRef?.metatype?.name ?? 'unknown';
     this.logger.log(
       `Found ${clc.cyanBright(tokenName)}${clc.green(
+        ' in ',
+      )}${clc.magentaBright(moduleRefName)}`,
+    );
+  }
+
+  private printResolvedProviderLog(
+    token: InstanceToken,
+    moduleRef: Module,
+  ): void {
+    if (!this.isDebugMode()) {
+      return;
+    }
+    const tokenName = this.getTokenName(token);
+    const moduleRefName = moduleRef?.metatype?.name ?? 'unknown';
+    this.logger.log(
+      `Resolved provider ${clc.magentaBright(tokenName)}${clc.red(
         ' in ',
       )}${clc.magentaBright(moduleRefName)}`,
     );
